@@ -3,7 +3,25 @@ from app.models.dto.utilisateur_schema import UtilisateurRegisterSchema
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.db.db_model import Utilisateur
 
+from app.services.jwt_manager import generate_jwt
 from app.services.session_scope import session_scope
+
+def login():
+    utilisateur_schema = UtilisateurRegisterSchema()
+    errors = utilisateur_schema.validate(request.json)
+    if errors:
+        return jsonify(errors), 400
+
+    username = request.json['username']
+    password = request.json['password']
+    
+    with session_scope() as session:
+        utilisateur = session.query(Utilisateur).filter_by(username=username).first()
+        if utilisateur and check_password_hash(utilisateur.password, password):
+            acces_token = generate_jwt(utilisateur,None,2)
+            return jsonify(acces_token), 200
+        else: 
+            return jsonify({'message' : 'Nom d\'utilisateur ou le mot de passe incorrect'}), 401
 
 def register():
     # Valider les données d"ntrée avec Marshmallow

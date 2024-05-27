@@ -1,8 +1,9 @@
 
 from flask import Flask
+from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
-from config import URL_DB
+from config import URL_DB, JWT_SECRET
 from sqlalchemy.exc import SQLAlchemyError
 from app.models.db.db_model import base
 
@@ -12,7 +13,9 @@ app = Flask(__name__)
 # mise en place du jeton d'accès (formulaire)
 app.config['SQLALCHEMY_DATABASE_URI'] = URL_DB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# JWT
+app.config['JWT_SECRET_KEY'] = JWT_SECRET
+
+jwt = JWTManager(app)
 
 # Définir la variable pour vérifier la connexion a la base de donnée
 db_connected = False
@@ -40,7 +43,7 @@ if db_connected:
     # metadata.create_all(bind=engine)
     
     # Ajouter l'import des routes
-    from app.routes import auth
+    from app.routes import auth, utilisateur
     print("----------------------")
     print("Connexion db établie !")
     print("----------------------")

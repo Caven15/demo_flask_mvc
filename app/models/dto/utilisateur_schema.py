@@ -7,3 +7,4 @@ class UtilisateurSchema(Schema):
 
 class UtilisateurRegisterSchema(UtilisateurSchema):
     password = fields.String(required=True, validate=validate.Length(min=8))
+    
