@@ -40,7 +40,7 @@ if db_connected:
     # metadata.create_all(bind=engine)
     
     # Ajouter l'import des routes
-    # from app.routes import     
+    from app.routes import auth
     print("----------------------")
     print("Connexion db établie !")
     print("----------------------")
