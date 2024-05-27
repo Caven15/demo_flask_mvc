@@ -1,0 +1,12 @@
+# Commande pour touot installer => pip install -r requirements.txt
+
+Flask==3.0.3
+
+# dépendances pour le restful
+Flask-RESTful==0.3.10
+marshmallow==3.21.2
+
+# dépendances db
+SQLAlchemy==2.0.30
+Flask-SQLAlchemy==3.1.1
+psycopg2==2.9.9
