@@ -1,4 +1,3 @@
-
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
@@ -6,9 +5,13 @@ from sqlalchemy import create_engine
 from config import URL_DB, JWT_SECRET
 from sqlalchemy.exc import SQLAlchemyError
 from app.models.db.db_model import base
+from flask_cors import CORS  # Importez Flask-CORS
 
 # Inititalisation de l'application Flask
 app = Flask(__name__)
+
+# Configurez CORS pour autoriser uniquement les requêtes depuis localhost:4200
+CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 
 # mise en place du jeton d'accès (formulaire)
 app.config['SQLALCHEMY_DATABASE_URI'] = URL_DB
@@ -35,7 +38,6 @@ try:
 except SQLAlchemyError as error:
     # En cas d'erreur SQLAlchemy, affichage du message d'erreur 
     print(f"Erreur de connexion à la base de données : \n {error}")
-
 
 if db_connected:
     # Suppresion de la db

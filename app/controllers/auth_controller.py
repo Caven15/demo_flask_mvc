@@ -18,8 +18,8 @@ def login():
     with session_scope() as session:
         utilisateur = session.query(Utilisateur).filter_by(username=username).first()
         if utilisateur and check_password_hash(utilisateur.password, password):
-            acces_token = generate_jwt(utilisateur,None,2)
-            return jsonify(acces_token), 200
+            access_token = generate_jwt(utilisateur,None,2)
+            return jsonify(access_token), 200
         else: 
             return jsonify({'message' : 'Nom d\'utilisateur ou le mot de passe incorrect'}), 401
 
